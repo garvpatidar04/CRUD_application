@@ -1,3 +1,5 @@
 __pycache__
 venv/
 .env
+docker-compose-dev.yml
+.dockerignore
