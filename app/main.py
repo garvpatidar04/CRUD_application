@@ -14,7 +14,6 @@ because alembic will handle all migration and creation task of table in databse
 if we keep the below code then it will create the table and the first alemibc version will be useless"""
 # models.Base.metadata.create_all(bind=engine)
 
-
 app = FastAPI() 
 
 origins = ['*']
