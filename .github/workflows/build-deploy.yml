@@ -4,11 +4,6 @@ on: [push, pull_request]
 
 jobs:
   my_first_job:
-    env:
-      database_url: postgresql://postgres:*new#path#4#data#2#go*@localhost:5432/fastapi
-      secret_key: 7a8d8703da88399a9517a08ede0c75ce2f208c3512df001632805a1e63499689
-      algorithm: HS256
-      access_token_expire_minutes: 300
     runs-on: ubuntu-latest
     steps:
       - name: pulling our code from repo
