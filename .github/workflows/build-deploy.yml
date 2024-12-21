@@ -15,11 +15,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres
         env:
           POSTGRES_PASSWORD: ${{secrets.database_password}}
           POSTGRES_DB: ${{secrets.database_name}}_test
-        port:
+        ports:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
