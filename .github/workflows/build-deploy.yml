@@ -4,7 +4,31 @@ on: [push, pull_request]
 
 jobs:
   my_first_job:
+
+    environment: 
+      name: testing
+    env:
+      database_url: ${{secrets.database_url}}
+      secret_key: ${{secrets.secret_key}}
+      algorithm: ${{secrets.algorithm}}
+      access_token_expire_minutes: ${{secrets.access_token_expire_minutes}}
+
+    service:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: ${{secrets.database_password}}
+          POSTGRES_DB: ${{secrets.database_name}}_test
+        port:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     runs-on: ubuntu-latest
+
     steps:
       - name: pulling our code from repo
         uses: actions/checkout@v4
