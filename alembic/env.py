@@ -14,8 +14,8 @@ from app.config import settings
 config = context.config
 config.set_main_option(
     # sqlalchemy.url: "driver://user:pass@localhost/dbname
-    # "sqlalchemy.url", f"pyscopg2+postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
-    "sqlalchemy.url", settings.database_url
+    "sqlalchemy.url", f"pyscopg2+postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
+    # "sqlalchemy.url", settings.database_url
     )
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
