@@ -13,7 +13,7 @@ jobs:
       algorithm: ${{secrets.algorithm}}
       access_token_expire_minutes: ${{secrets.access_token_expire_minutes}}
 
-    service:
+    services:
       postgres:
         image: postgres:16
         env:
