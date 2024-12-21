@@ -3,10 +3,10 @@ name: Build and Deploy our Code
 on: [push, pull_request]
 
 jobs:
-    my_first_job:
-        runs-on: ubuntu-latest
-        steps:
-            - name: pulling our code from repo
-            uses: actions/checkout@v4
-            - name: say hi to user
-            uses: echo "Hello Garv"
+  my_first_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pulling our code from repo
+        uses: actions/checkout@v4
+      - name: say hi to user
+        run: echo "Hello Garv"
