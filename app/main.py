@@ -4,6 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import models
 from .database import engine
 from .routers import post, user, auth, vote
+from contextlib import asynccontextmanager
+from .talktodb import talk
+
+
 
 """
 after alembic we do not need this,  
@@ -11,6 +15,17 @@ because alembic will handle all migration and creation task of table in databse
 if we keep the below code then it will create the table and the first alemibc version will be useless"""
 # models.Base.metadata.create_all(bind=engine)
 
+talk()
+# @asynccontextmanager 
+# async def run_migrations(app: FastAPI):
+#     try:
+#         talk()
+
+#     finally: 
+#         yield   
+#         print('Application is shutting down...')
+
+# app = FastAPI(lifespan=run_migrations) 
 app = FastAPI() 
 
 origins = ['*']
