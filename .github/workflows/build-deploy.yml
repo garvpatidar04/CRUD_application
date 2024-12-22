@@ -48,8 +48,20 @@ jobs:
         run: |
           echo "DATABASE_HOSTNAME=${{ secrets.database_hostname }}"
           echo "DATABASE_NAME=${{ secrets.database_name }}"
-          
+
+      - name: Verify PostgreSQL credentials
+        run: |
+            echo "Testing connection..."
+            PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h postgres -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c '\conninfo'
+  
+      - name: Periodic credential test
+        run: |
+          for i in {1..5}; do
+            echo "Testing credentials attempt $i..."
+            PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h postgres -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c 'SELECT 1;'
+            sleep 10
+          done
+
       - name: Running tests
         run: |
-          pip install pytest
           pytest
