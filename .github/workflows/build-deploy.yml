@@ -16,6 +16,8 @@ jobs:
       secret_key: ${{secrets.secret_key}}
       algorithm: ${{secrets.algorithm}}
       access_token_expire_minutes: ${{secrets.access_token_expire_minutes}}
+      
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -31,8 +33,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    runs-on: ubuntu-latest
-
     steps:
       - name: pulling our code from repo
         uses: actions/checkout@v4
@@ -44,6 +44,11 @@ jobs:
         run: python -m pip install --upgrade pip
       - name: Installing dependencies
         run: pip install -r requirements.txt
+      - name: Setting up environment variables
+        run: |
+          echo "DATABASE_HOSTNAME=${{ secrets.database_hostname }}"
+          echo "DATABASE_NAME=${{ secrets.database_name }}"
+          
       - name: Running tests
         run: |
           pip install pytest
