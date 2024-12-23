@@ -49,25 +49,15 @@ jobs:
           echo "DATABASE_HOSTNAME=${{ secrets.database_hostname }}"
           echo "DATABASE_NAME=${{ secrets.database_name }}"
       
-      - name: Wait for PostgreSQL to be ready
+      - name: Install PostgreSQL client   
         run: |
-          until pg_isready -h postgres -U ${{secrets.DATABASE_USERNAME}}; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 5
-          done
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
 
       - name: Verify PostgreSQL credentials
         run: |
             echo "Testing connection..."
             PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h postgres -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c '\conninfo'
-  
-      - name: Periodic credential test
-        run: |
-          for i in {1..5}; do
-            echo "Testing credentials attempt $i..."
-            PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h postgres -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c 'SELECT 1;'
-            sleep 10
-          done
 
       - name: Running tests
         run: |
