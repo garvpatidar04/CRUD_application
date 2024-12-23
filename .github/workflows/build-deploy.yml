@@ -54,7 +54,6 @@ jobs:
   
       - name: Modify PostgreSQL configuration
         run: |
-          echo "Configuring PostgreSQL..."
           docker exec postgres-container-name bash -c "
           echo \"listen_addresses = '*'\" >> /var/lib/postgresql/data/postgresql.conf;
           echo \"host all all 0.0.0.0/0 scram-sha-256\" >> /var/lib/postgresql/data/pg_hba.conf;
