@@ -17,8 +17,6 @@ jobs:
       algorithm: ${{secrets.algorithm}}
       access_token_expire_minutes: ${{secrets.access_token_expire_minutes}}
       
-    runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres
@@ -32,6 +30,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+                
+    runs-on: ubuntu-latest
 
     steps:
       - name: pulling our code from repo
@@ -46,8 +46,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Setting up environment variables
         run: |
-          echo "DATABASE_HOSTNAME=${{ secrets.database_hostname }}"
-          echo "DATABASE_NAME=${{ secrets.database_name }}"
+          echo "DATABASE_HOSTNAME=${{secrets.database_hostname}}"
+          echo "DATABASE_NAME=${{secrets.database_name}}"
       
       - name: Install PostgreSQL client   
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: Verify PostgreSQL credentials
         run: |
             echo "Testing connection..."
-            PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h postgres -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c '\conninfo'
+            PGPASSWORD=${{secrets.DATABASE_PASSWORD}} psql -h ${{secrets.DATABASE_HOSTNAME}} -U ${{secrets.DATABASE_USERNAME}} -d ${{ secrets.DATABASE_NAME }} -c '\conninfo'
 
       - name: Running tests
         run: |
