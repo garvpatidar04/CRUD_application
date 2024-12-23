@@ -49,10 +49,20 @@ jobs:
           echo "DATABASE_HOSTNAME=${{secrets.database_hostname}}"
           echo "DATABASE_NAME=${{secrets.database_name}}"
       
-      - name: Install PostgreSQL client   
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+  
+      - name: Modify PostgreSQL configuration
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes postgresql-client
+          echo "Configuring PostgreSQL..."
+          docker exec postgres-container-name bash -c "
+          echo \"listen_addresses = '*'\" >> /var/lib/postgresql/data/postgresql.conf;
+          echo \"host all all 0.0.0.0/0 scram-sha-256\" >> /var/lib/postgresql/data/pg_hba.conf;
+          echo \"host all all ::/0 scram-sha-256\" >> /var/lib/postgresql/data/pg_hba.conf;
+            "
+  
+      - name: Restart PostgreSQL container
+        run: docker restart postgres-container-name
 
       - name: Verify PostgreSQL credentials
         run: |
